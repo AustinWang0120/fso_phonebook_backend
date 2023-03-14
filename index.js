@@ -1,6 +1,8 @@
 const express = require("express")
 const app = express()
 
+app.use(express.json())
+
 let persons = [
   { 
     "id": 1,
@@ -46,6 +48,30 @@ app.get("/api/persons/:id", (req, res) => {
   if (!person) {
     res.status(404).end()
   } else {
+    res.json(person)
+  }
+})
+
+app.post("/api/persons", (req, res) => {
+  const getRandomInt = (max) => {
+    return Math.floor(Math.random() * max)
+  }
+  const body = req.body
+  if (!body.name || !body.number) {
+    return res.status(400).json({
+      error: "the name or number is missing"
+    })
+  } else if (persons.find((person) => (person.name.toLowerCase() === body.name.toLowerCase()))) {
+    return res.status(400).json({
+      error: "the name already exists in the phonebook"
+    })
+  } else {
+    const person = {
+      name: body.name,
+      number: body.number,
+      id: getRandomInt(50000),
+    }
+    persons = persons.concat(person)
     res.json(person)
   }
 })
