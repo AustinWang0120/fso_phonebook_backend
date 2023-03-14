@@ -28,6 +28,14 @@ app.get("/", (req, res) => {
   res.send("<h1>Hello World</h1>")
 })
 
+app.get("/info", (req, res) => {
+  const returnString = `
+    <h1>Phonebook has info for ${persons.length} people</h1><br/>
+    <h1>${new Date().toLocaleString()}</h1>
+  `
+  res.send(returnString)
+})
+
 app.get("/api/persons", (req, res) => {
   res.json(persons)
 })
