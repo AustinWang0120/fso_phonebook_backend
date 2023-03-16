@@ -97,8 +97,9 @@ const unknownEndpoint = (req, res, next) => {
 app.use(unknownEndpoint)
 
 const errorHandler = (error, req, res, next) => {
-  console.error(error)
-
+  return res.status(400).json({
+    error: error.message
+  })
   next(error)
 }
 app.use(errorHandler)
