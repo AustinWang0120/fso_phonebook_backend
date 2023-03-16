@@ -12,7 +12,7 @@ app.use(express.json())
 app.use(cors())
 
 // request logger
-morgan.token("body", (req, res) => {
+morgan.token("body", (req, _res) => {
   return JSON.stringify(req.body)
 })
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms :body", { stream: process.stdout }))
@@ -78,7 +78,7 @@ app.put("/api/persons/:id", (req, res, next) => {
 
 app.delete("/api/persons/:id", (req, res, next) => {
   Person.findByIdAndRemove(req.params.id)
-    .then((removedPerson) => {
+    .then((_removedPerson) => {
       res.status(204).end()
     })
     .catch((error) => (next(error)))
@@ -93,7 +93,7 @@ const unknownEndpoint = (req, res, next) => {
 }
 app.use(unknownEndpoint)
 
-const errorHandler = (error, req, res, next) => {
+const errorHandler = (error, req, res, _next) => {
   return res.status(400).json({
     error: error.message
   })
