@@ -15,7 +15,7 @@ app.use(cors())
 morgan.token("body", (req, res) => {
   return JSON.stringify(req.body)
 })
-app.use(morgan(":method :url :status :res[content-length] - :response-time ms :body", {stream: process.stdout}))
+app.use(morgan(":method :url :status :res[content-length] - :response-time ms :body", { stream: process.stdout }))
 
 // routers
 app.get("/", (req, res) => {
@@ -36,15 +36,13 @@ app.get("/info", (req, res) => {
 app.get("/api/persons", (req, res, next) => {
   Person.find({}).then((persons) => {
     res.json(persons)
-  })
-  .catch((error) => (next(error)))
+  }).catch((error) => (next(error)))
 })
 
 app.get("/api/persons/:id", (req, res, next) => {
   Person.findById(req.params.id).then((person) => {
     res.json(person)
-  })
-  .catch((error) => (next(error)))
+  }).catch((error) => (next(error)))
 })
 
 app.post("/api/persons", (req, res, next) => {
@@ -60,8 +58,7 @@ app.post("/api/persons", (req, res, next) => {
     })
     person.save().then((savedPerson) => {
       res.json(savedPerson)
-    })
-    .catch((error) => (next(error)))
+    }).catch((error) => (next(error)))
   }
 })
 
@@ -72,7 +69,7 @@ app.put("/api/persons/:id", (req, res, next) => {
     number: body.number,
   }
 
-  Person.findByIdAndUpdate(req.params.id, newPerson, {new: true})
+  Person.findByIdAndUpdate(req.params.id, newPerson, { new: true })
     .then((updatedPerson) => {
       res.json(updatedPerson)
     })
@@ -100,7 +97,6 @@ const errorHandler = (error, req, res, next) => {
   return res.status(400).json({
     error: error.message
   })
-  next(error)
 }
 app.use(errorHandler)
 
